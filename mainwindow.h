@@ -9,6 +9,9 @@
 #include <QPushButton>
 #include <QLabel>
 
+#define CHAR_SET_EN " !\"#$%&\\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+#define CHAR_SET_RU " !\"#$%&\\'()*+,-./0123456789:;<=>?@АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ[\\]^_`абвгдеёжзийклмнопрстуфчцчшщъыьэюя{|}~"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,7 +21,7 @@ public:
     ~MainWindow() override;
 
 public slots:
-    void go_slot();
+    void go_slot(int);
 
 private:
     QVBoxLayout *mainLayout;

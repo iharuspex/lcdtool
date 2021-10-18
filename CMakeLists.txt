@@ -3,6 +3,7 @@ project(lcdtool)
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(QT_VERSION 5)
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED)
