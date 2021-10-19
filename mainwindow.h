@@ -1,35 +1,34 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+//
+// Created by haruspex on 10/19/21.
+//
+
+#ifndef LCDTOOL_MAINWINDOW_H
+#define LCDTOOL_MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QFont>
-#include <QFontDatabase>
-#include <QVBoxLayout>
-#include <QComboBox>
-#include <QPushButton>
-#include <QLabel>
 
-#define CHAR_SET_EN " !\"#$%&\\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-#define CHAR_SET_RU " !\"#$%&\\'()*+,-./0123456789:;<=>?@АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ[\\]^_`абвгдеёжзийклмнопрстуфчцчшщъыьэюя{|}~"
+#include "imageeditor.h"
 
-class MainWindow : public QMainWindow
-{
+QT_BEGIN_NAMESPACE
+namespace Ui { class MainWindow; }
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow() override;
 
-public slots:
-    void go_slot(int);
+private slots:
+    void openImageEditor();
 
 private:
-    QVBoxLayout *mainLayout;
-    QFont *font;
-    QFontDatabase *fontDatabase;
-    QComboBox *fontComboBox;
-    QPushButton *goButton;
-    QLabel *label;
+    Ui::MainWindow *ui;
+
+    ImageEditor *imageEditor;
 };
 
-#endif // MAINWINDOW_H
+
+#endif //LCDTOOL_MAINWINDOW_H
