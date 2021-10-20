@@ -1,14 +1,22 @@
 #include <QFileDialog>
 #include <QGraphicsPixmapItem>
+#include <QMessageBox>
 
 #include "imageeditor.h"
 #include "ui_imageeditor.h"
 
 ImageEditor::ImageEditor(QWidget *parent) :
-        QWidget(parent), ui(new Ui::ImageEditor) {
+        QMainWindow(parent), ui(new Ui::ImageEditor) {
     ui->setupUi(this);
 
-    connect(ui->pushButton, &QPushButton::clicked, this, &ImageEditor::onLoadImage);
+    connect(ui->actionOpen, &QAction::triggered, this, &ImageEditor::onLoadImage);
+    connect(ui->actionAbout, &QAction::triggered, []() {
+        QMessageBox::about(nullptr, "About", "LCD Tool image editor\n"
+                                             "Version: 0.0.1a");
+    });
+    connect(ui->actionAbout_Qt, &QAction::triggered, []() {
+        QMessageBox::aboutQt(nullptr, "About Qt");
+    });
 }
 
 ImageEditor::~ImageEditor() {

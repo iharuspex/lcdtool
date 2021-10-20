@@ -5,14 +5,14 @@
 #ifndef LCDTOOL_IMAGEEDITOR_H
 #define LCDTOOL_IMAGEEDITOR_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ImageEditor; }
 QT_END_NAMESPACE
 
-class ImageEditor : public QWidget {
+class ImageEditor : public QMainWindow {
 Q_OBJECT
 
 public:
