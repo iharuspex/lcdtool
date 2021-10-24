@@ -23,6 +23,10 @@ public:
 private slots:
     void onLoadImage();
 
+    void onConvertToArray();
+
+    QImage FSDithering(QImage &);
+
 private:
     Ui::ImageEditor *ui;
 };
