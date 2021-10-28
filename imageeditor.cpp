@@ -41,8 +41,8 @@ void ImageEditor::onLoadImage() {
 }
 
 void ImageEditor::onConvertToArray() {
-    QImage img("../test.png");
-    img = img.scaled(200, 200);
+    QImage img("../test_3_128x64.png");
+    //img = img.scaled(128, 64);
 
     img = FSDithering(img);
 
@@ -51,13 +51,7 @@ void ImageEditor::onConvertToArray() {
     scene->addItem(item);
     ui->graphicsView->setScene(scene);
 
-    QRgb rgb = img.pixel(0, 0);
-    QColor rgbColor(rgb);
-    std::cout << "Red: " << rgbColor.red() << std::endl
-              << "Green: " << rgbColor.green() << std::endl
-              << "Blue: " << rgbColor.blue() << std::endl;
-
-    QString output = "const unsigned char gImage_1in54[5000] = {\n";
+    QString output = "const unsigned char gImage_1in54[] = {\n";
     int elem_counter = 0;
     // 1 byte == 8 pixels!
     quint8 imgByte = 0;
@@ -66,9 +60,9 @@ void ImageEditor::onConvertToArray() {
     std::cout << "Width:  " << img.width() << std::endl
               << "Height: " << img.height() << std::endl;
 
-    for ( int col = 0; col < img.width(); col++ ) {
-        for ( int row = 0; row < img.height(); row++ ) {
-            QColor clrCurrent(img.pixel(row, col));
+    for ( int row = 0; row < img.height(); row++ ) {
+        for ( int col = 0; col < img.width(); col++ ) {
+            QColor clrCurrent(img.pixel(col, row));
 
             if (clrCurrent.value() != 0) {
                 imgByte |= 1 << (7u - byteFullCnt);
@@ -106,8 +100,6 @@ void ImageEditor::onConvertToArray() {
 }
 
 int get_near_color(int hsv_val) {
-    int new_val = 0;
-
     if (hsv_val <= 96 ) {
         return 0;
     } else {
@@ -117,14 +109,13 @@ int get_near_color(int hsv_val) {
 
 QImage ImageEditor::FSDithering(QImage &image) {
     QImage img(image);
-    img = img.convertToFormat(QImage::Format_Mono);
 
     int oldpixel = 0;
     int newpixel = 0;
 
-    for ( int col = 0; col < img.width(); col++ ) {
-        for (int row = 0; row < img.height(); row++) {
-            QColor clrCurrent(img.pixel(row, col));
+    for ( int row = 0; row < img.height(); row++ ) {
+        for (int col = 0; col < img.width(); col++) {
+            QColor clrCurrent(img.pixel(col, row));
 
             oldpixel = clrCurrent.value();
             newpixel = get_near_color(oldpixel);
@@ -138,11 +129,23 @@ QImage ImageEditor::FSDithering(QImage &image) {
              *      (1/16)
              */
 
-            img.setPixelColor(row, col, QColor::fromHsv(0, 0, newpixel));
-            img.setPixelColor(row, col + 1, QColor::fromHsv(0, 0, QColor(img.pixel(row, col + 1)).value() + (quant_error * 7/16)));
-            img.setPixelColor(row + 1, col + 1, QColor::fromHsv(0, 0, QColor(img.pixel(row + 1, col + 1)).value() + (quant_error * 1/16)));
-            img.setPixelColor(row + 1, col, QColor::fromHsv(0, 0, QColor(img.pixel(row + 1, col)).value() + (quant_error * 5/16)));
-            img.setPixelColor(row + 1, col - 1, QColor::fromHsv(0, 0, QColor(img.pixel(row + 1, col - 1)).value() + (quant_error * 3/16)));
+            img.setPixelColor(col, row, QColor::fromHsv(0, 0, newpixel));
+
+            if (col + 1 < img.width()) {
+                img.setPixelColor(col + 1, row, QColor::fromHsv(0, 0, QColor(img.pixel(col + 1, row)).value() + (quant_error * 7/16)));
+            }
+
+            if (row + 1 < img.height() && col + 1 < img.width()) {
+                img.setPixelColor(col + 1, row + 1, QColor::fromHsv(0, 0, QColor(img.pixel(col + 1, row + 1)).value() + (quant_error * 1/16)));
+            }
+
+            if (row + 1 < img.height()) {
+                img.setPixelColor(col, row + 1, QColor::fromHsv(0, 0, QColor(img.pixel(col, row + 1)).value() + (quant_error * 5/16)));
+            }
+
+            if (row + 1 < img.height() && col - 1 >= 0) {
+                img.setPixelColor(col - 1, row + 1, QColor::fromHsv(0, 0, QColor(img.pixel(col - 1, row + 1)).value() + (quant_error * 3/16)));
+            }
         }
     }
 
