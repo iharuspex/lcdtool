@@ -8,6 +8,7 @@
 #include <QMainWindow>
 
 #include "imageeditor.h"
+#include "fonteditor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,12 +24,13 @@ public:
 
 private slots:
     void openImageEditor();
+    void openFontEditor();
 
 private:
     Ui::MainWindow *ui;
 
     ImageEditor *imageEditor;
+    FontEditor *fontEditor;
 };
-
 
 #endif //LCDTOOL_MAINWINDOW_H

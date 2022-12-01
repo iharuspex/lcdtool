@@ -5,9 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    imageEditor = new ImageEditor();
-
     connect(ui->imageEdButton, &QPushButton::clicked, this, &MainWindow::openImageEditor);
+    connect(ui->fontEdButton, &QPushButton::clicked, this, &MainWindow::openFontEditor);
 }
 
 MainWindow::~MainWindow() {
@@ -15,6 +14,12 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::openImageEditor() {
+    imageEditor = new ImageEditor();
     imageEditor->show();
+}
+
+void MainWindow::openFontEditor() {
+    fontEditor = new FontEditor();
+    fontEditor->show();
 }
 

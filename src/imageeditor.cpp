@@ -14,6 +14,12 @@ ImageEditor::ImageEditor(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::ImageEditor) {
     ui->setupUi(this);
 
+    cropToolItem = new CropToolItem;
+
+    auto *scene = new QGraphicsScene;
+    scene->addItem(cropToolItem);
+    ui->graphicsView->setScene(scene);
+
     connect(ui->actionOpen, &QAction::triggered, this, &ImageEditor::onLoadImage);
     connect(ui->actionAbout, &QAction::triggered, []() {
         QMessageBox::about(nullptr, "About", "LCD Tool image editor\n"
@@ -31,7 +37,7 @@ ImageEditor::~ImageEditor() {
 }
 
 void ImageEditor::onLoadImage() {
-    QString imagePath = QFileDialog::getOpenFileName(this, "Open image file", QString(), tr("Image files (*.png, *.jpg)"));
+    imagePath = QFileDialog::getOpenFileName(this, "Open image file", QString(), tr("Image files (*.png, *.jpg)"));
 
     // Test!
     auto *scene = new QGraphicsScene;
@@ -41,7 +47,7 @@ void ImageEditor::onLoadImage() {
 }
 
 void ImageEditor::onConvertToArray() {
-    QImage img("../test_3_128x64.png");
+    QImage img(imagePath);
     //img = img.scaled(128, 64);
 
     img = FSDithering(img);

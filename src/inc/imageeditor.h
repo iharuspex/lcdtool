@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 
+#include "croptoolitem.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ImageEditor; }
@@ -29,6 +30,10 @@ private slots:
 
 private:
     Ui::ImageEditor *ui;
+
+    QString imagePath;
+
+    CropToolItem *cropToolItem;
 };
 
 
