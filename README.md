@@ -1,2 +1,2 @@
-# lcdtool
-Easy-to-use fonts and images converter
+# LCD Tool
+Easy-to-use fonts and images converter (Work-in-progress)
